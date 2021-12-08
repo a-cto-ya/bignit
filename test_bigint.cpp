@@ -48,30 +48,118 @@ public:
     }
 
     BigInt operator*(const BigInt& other) const {
+        BigInt(c);
+        for (int i = 0; i < _data.size(); ++i) {
+            int t = 0;
+            int j = 0;
+            for ( ; j < other._data.size(); ++j) {
+                t += _data[i] * other._data[j];
+                if (i + j < c._data.size()) {
+                    t += c._data[i+j];
+                    c._data[i+j] = t%10;
+                } else {
+                    c._data.push_back(t%10);
+                }
+                t /= 10;
+            }
+            while (t > 0) {
+                if (i + j < c._data.size()) {
+                    t += c._data[i+j];
+                    c._data[i+j] = t%10;
+                } else {
+                    c._data.push_back(t%10);
+                }
+                t /= 10;
+                ++j;
+            }
+        }
+        return(c);
     }
 
     bool operator==(const BigInt& other) const {
+        bool t = 1;
+        if (_data.size() == other._data.size()) {
+            for (int i = 0; i < _data.size(); ++i) {
+                if ( _data[i] != other._data[i]) t = 0;
+            }
+        } else t = 0;
+        return(t);
     }
 
     bool operator!=(const BigInt& other) const {
+        bool t = 1;
+        if (_data.size() == other._data.size()) {
+            for (int i = 0; i < _data.size(); ++i) {
+                if ( _data[i] != other._data[i]) t = 0;
+            }
+        } else t = 0;
+        return(!t);
     }
 
     bool operator<(const BigInt& other) const {
+        bool t = 0;
+        if (_data.size() < other._data.size()) {
+                t = 1;
+        } else {
+            if (_data.size() == other._data.size()) {
+                for (int i = 0; i < other._data.size(); ++i) {
+                    if (_data[i] < other._data[i]) t = 1;
+                }
+            }
+        }
+        return(t);
     }
 
     bool operator<=(const BigInt& other) const {
+        bool t = 1;
+        if (_data.size() > other._data.size()) {
+                t = 0;
+        } else {
+            if (_data.size() == other._data.size()) {
+                for (int i = 0; i < other._data.size(); ++i) {
+                    if (_data[i] > other._data[i]) t = 0;
+                }
+            }
+        }
+        return(t);
     }
 
     bool operator>(const BigInt& other) const {
+        bool t = 0;
+        if (_data.size() > other._data.size()) {
+                t = 1;
+        } else {
+            if (_data.size() == other._data.size()) {
+                for (int i = 0; i < other._data.size(); ++i) {
+                    if (_data[i] > other._data[i]) t = 1;
+                }
+            }
+        }
+        return(t);
     }
 
     bool operator>=(const BigInt& other) const {
+        bool t = 1;
+        if (_data.size() < other._data.size()) {
+                t = 0;
+        } else {
+            if (_data.size() == other._data.size()) {
+                for (int i = 0; i < other._data.size(); ++i) {
+                    if (_data[i] < other._data[i]) t = 0;
+                }
+            }
+        }
+        return(t);
     }
 
     friend std::ostream& operator<<(std::ostream& out, const BigInt& value);
 };
 
 std::ostream& operator<<(std::ostream& out, const BigInt& value) {
+    for (int i = value._data.size() - 1; i >= 0; --i) {
+        out << value._data[i];
+    }
+    return(out);
 }
 
 std::string toString(const BigInt& value)
