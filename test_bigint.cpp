@@ -49,6 +49,9 @@ public:
 
     BigInt operator*(const BigInt& other) const {
         BigInt(c);
+        if ((_data[_data.size() - 1] == 0)||(other._data[other._data.size() - 1] == 0)) {
+            c._data.push_back(0);
+        } else {
         for (int i = 0; i < _data.size(); ++i) {
             int t = 0;
             int j = 0;
@@ -73,7 +76,8 @@ public:
                 ++j;
             }
         }
-        return(c);
+    }
+    return(c);
     }
 
     bool operator==(const BigInt& other) const {
