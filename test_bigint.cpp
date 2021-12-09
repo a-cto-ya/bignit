@@ -10,6 +10,7 @@ private:
     vector<int> _data;
 public:
     BigInt() {
+        _data.push_back(0);
     }
 
     BigInt(const long long x) {
@@ -22,12 +23,14 @@ public:
     }
 
     BigInt(const BigInt& copied) {
+        _data.clear();
         for (int i = 0; i < copied._data.size(); ++i) {
             _data.push_back(copied._data[i]);
         }
     }
 
     BigInt& operator=(const BigInt& copied) {
+        _data.clear();
         for (int i = 0; i < copied._data.size(); ++i) {
             _data.push_back(copied._data[i]);
         }
@@ -36,6 +39,7 @@ public:
 
     BigInt operator+(const BigInt& other) const {
         BigInt(c);
+        c._data.clear();
         int t = 0;
         for (int i = 0; i < max(_data.size(), other._data.size()); ++i) {
         if (i < _data.size()) t += _data[i];
@@ -49,6 +53,7 @@ public:
 
     BigInt operator*(const BigInt& other) const {
         BigInt(c);
+        c._data.clear();
         if ((_data[_data.size() - 1] == 0)||(other._data[other._data.size() - 1] == 0)) {
             c._data.push_back(0);
         } else {
